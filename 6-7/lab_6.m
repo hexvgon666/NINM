@@ -28,16 +28,22 @@ matrix_size = size(matrix_power, 1);
 row_prod = prod(matrix_power, 2);
 prod_sqrt = nthroot(row_prod, matrix_size);
 sum_sqrt = sum(prod_sqrt);
+disp('Альтернативы (power):'); disp(prod_sqrt)
+disp('(power):'); disp(sum_sqrt)
 weights_power = prod_sqrt / sum_sqrt;
 
 row_prod = prod(matrix_torque, 2);
 prod_sqrt = nthroot(row_prod, matrix_size);
 sum_sqrt = sum(prod_sqrt);
+disp('Альтернативы (torque):'); disp(prod_sqrt)
+disp('(torque):'); disp(sum_sqrt)
 weights_torque = prod_sqrt / sum_sqrt;
 
 row_prod = prod(matrix_mass, 2);
 prod_sqrt = nthroot(row_prod, matrix_size);
 sum_sqrt = sum(prod_sqrt);
+disp('Альтернативы (mass):'); disp(prod_sqrt)
+disp('(mass):'); disp(sum_sqrt)
 weights_mass = prod_sqrt / sum_sqrt;
 
 

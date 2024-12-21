@@ -1,5 +1,5 @@
 cam = {'Canon', 'Sony', 'Hikvision', 'Dahua', 'Samsung', 'Logitech'};
-n = length(ranks);
+n = length(cam);
 
 % Разрешение
 matrix_permission = [1,   1/2,  2,   1/3, 1/4, 3;  
@@ -100,10 +100,3 @@ disp("Оценка каждой видеокамеры:"); disp(final_scores);
 [max_score, best] = max(final_scores);
 fprintf("Оптимальный вариант: "); disp(cam(best)); disp(" с весом: "); disp(max_score);
 
-figure;
-bar(final_scores);
-xlabel('Варианты видеокамеры');
-ylabel('Итоговый вес');
-title('Итоговые веса вариантов видеокамер');
-xticklabels(cam);
-grid on;
