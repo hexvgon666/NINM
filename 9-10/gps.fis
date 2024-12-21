@@ -1,0 +1,47 @@
+[System]
+Name='gps'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=1
+NumRules=9
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='Длина_пути'
+Range=[1 11]
+NumMFs=3
+MF1='Короткий':'trapmf',[1 1 3 6]
+MF2='Средний':'trimf',[3.02645502645503 6.02645502645503 9.02645502645503]
+MF3='Длинный':'trapmf',[6 9 11 11]
+
+[Input2]
+Name='Пробки'
+Range=[0 10]
+NumMFs=3
+MF1='Слабые':'trapmf',[0 0 2 5]
+MF2='Средние':'trimf',[2 5 8]
+MF3='Сильные':'trapmf',[5 8 10 10]
+
+[Output1]
+Name='Время_проезда_(в_часах)'
+Range=[0 5]
+NumMFs=3
+MF1='Быстро':'trimf',[0 0 1]
+MF2='Нормально':'trapmf',[0 1 2 3]
+MF3='Долго':'trapmf',[2 3 5 5]
+
+[Rules]
+1 1, 1 (1) : 1
+1 2, 1 (1) : 1
+1 3, 2 (1) : 1
+2 1, 1 (1) : 1
+2 2, 2 (1) : 1
+2 3, 3 (1) : 1
+3 1, 2 (1) : 1
+3 2, 3 (1) : 1
+3 3, 3 (1) : 1
