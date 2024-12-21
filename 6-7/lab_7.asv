@@ -1,0 +1,91 @@
+cam = {'Canon', 'Sony', 'Hikvision', 'Dahua', 'Samsung', 'Logitech'};
+n = length(ranks);
+
+% Разрешение
+matrix_permission = [1,   1/2,  2,   1/3, 1/4, 3;  
+                     2,   1,    3,   1/2, 1/3, 4; 
+                     1/2, 1/3,  1,   1/4, 1/5, 2;  
+                     3,   2,    4,   1,   1/2, 5; 
+                     4,   3,    5,   2,   1,   6; 
+                     1/3, 1/4,  1/2, 1/5, 1/6, 1];
+
+% Чувствительность к свету
+matrix_sensitivity = [1,   1/2, 1/3, 1,   2, 3;
+                      2,   1,   1/2, 2,   3, 4; 
+                      3,   2,   1,   3,   4, 5;  
+                      1,   1/2, 1/3, 1,   2, 3; 
+                      1/2, 1/3, 1/4, 1/2, 1, 2; 
+                      1/3, 1/4, 1/5, 1/3, 1/2, 1];
+
+% Скорость записи
+matrix_rec_speed = [1,   2, 1/2, 1,   1/3, 1;
+              1/2, 1, 1/3, 1/2, 1/4, 1/2; 
+              2,   3, 1,   2,   1/2, 2;  
+              1,   2, 1/2, 1,   1/3, 1; 
+              3,   4, 2,   3,   1,   3; 
+              1,   2, 1/2, 1,   1/3, 1];
+
+% Колличество шума 
+matrix_noise = [1,   2,   1/2, 3,   4,   5;
+                1/2, 1,   1/3, 2,   3,   4; 
+                2,   3,   1,   4,   5,   6;  
+                1/3, 1/2, 1/4, 1,   2,   3; 
+                1/4, 1/3, 1/5, 1/2, 1,   2; 
+                1/5, 1/4, 1/6, 1/3, 1/2, 1];
+
+% Частота кадров
+matrix_fps = [1, 1, 1/2, 1, 1/2, 1;
+              1, 1, 1/2, 1, 1/2, 1; 
+              2, 2, 1,   2, 1,   2;  
+              1, 1, 1/2, 1, 1/2, 1; 
+              2, 2, 1,   2, 1,   2; 
+              1, 1, 1/2, 1, 1/2, 1];
+
+% Размер матрицы
+matrix_m_size = [1,   1,   2, 1/2, 1/2, 1;
+                 1,   1,   2, 1/2, 1/2, 1; 
+                 1/2, 1/2, 1, 1/3, 1/3, 1/2;  
+                 2,   2,   3, 1,   1,   2; 
+                 2,   2,   3, 1,   1,   2; 
+                 1,   1,   2, 1/2, 1/2, 1];
+
+% Вычисление весов для каждой альтернативы
+matrix_size = size(matrix_permission, 1);
+
+row_prod = prod(matrix_permission, 2);
+prod_sqrt = nthroot(row_prod, matrix_size);
+sum_sqrt = sum(prod_sqrt);
+weights_permission = prod_sqrt / sum_sqrt;
+
+row_prod = prod(matrix_sensitivity, 2);
+prod_sqrt = nthroot(row_prod, matrix_size);
+sum_sqrt = sum(prod_sqrt);
+weights_sensitivity = prod_sqrt / sum_sqrt;
+
+row_prod = prod(matrix_mass, 2);
+prod_sqrt = nthroot(row_prod, matrix_size);
+sum_sqrt = sum(prod_sqrt);
+weights_mass = prod_sqrt / sum_sqrt;
+
+
+disp('Мощность:'); disp(weights_power);
+disp('Крутящий момент:'); disp(weights_torque);
+disp('Масса:'); disp(weights_mass);
+
+final_scores = zeros(n, 1);
+for i = 1 : n
+    final_scores(i) = weights_power(i) + weights_torque(i) + weights_mass(i);
+end
+
+disp("Оценка каждого двигателя:"); disp(final_scores);
+
+[max_score, best] = max(final_scores);
+fprintf("Оптимальный вариант: Двигатель "); disp(best); disp(" с весом: "); disp(max_score);
+
+figure;
+bar(final_scores);
+xlabel('Варианты двигателей');
+ylabel('Итоговый вес');
+title('Итоговые веса вариантов двигателей');
+xticklabels({'Двигатель 1', 'Двигатель 2', 'Двигатель 3', 'Двигатель 4', 'Двигатель 5', 'Двигатель 6'});
+grid on;
